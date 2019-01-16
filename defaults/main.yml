@@ -1,5 +1,6 @@
 mikrotik_firewall:
   connection_tracking:
+    # or no
     enabled: "yes"
     tcp_syn_sent_timeout: 5s
     tcp_syn_received_timeout: 5s
@@ -15,7 +16,7 @@ mikrotik_firewall:
     udp_stream_timeout: 3m
     icmp_timeout: 10s
     generic_timeout: 10m
-    
+
   remove_old_filter_rules: false
   filter_rules: []
   remove_old_nat_rules: false
