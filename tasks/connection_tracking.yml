@@ -1,5 +1,5 @@
 ---
-- name: "Setting enabled={{ mikrotik_firewall.connection_tracking.enabled }}"
+- name: "Setting conntrack enabled={{ mikrotik_firewall.connection_tracking.enabled }}"
   routeros_command:
     commands: |
       :if ([/ip firewall connection tracking get enabled] != "{{ mikrotik_firewall.connection_tracking.enabled }}") do={

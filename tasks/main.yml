@@ -1,7 +1,7 @@
 ---
 - include: connection_tracking.yml
   tags: [ 'role::mikrotik_firewall::connection_tracking']
-  
+
 - include: services.yml
   tags: [ 'role::mikrotik_firewall:services' ]
 
