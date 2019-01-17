@@ -12,9 +12,12 @@
     delegate_to: localhost
 
   - name: Run firewall-nat-{{inventory_hostname}}.rsc on router
-    raw: "/import firewall-nat-{{inventory_hostname}}.rsc"
+    routeros_command:
+      commands: "/import firewall-nat-{{inventory_hostname}}.rsc"
     tags: mikrotik_firewall_services
+    failed_when: firewall_interface_list_out['stdout_lines'][0][-1] is not search('Script file loaded and executed successfully')
 
   - name: Remove firewall-nat-{{inventory_hostname}}.rsc from router
-    raw: "/file remove firewall-nat-{{inventory_hostname}}.rsc"
+    routeros_command:
+      commands: "/file remove firewall-nat-{{inventory_hostname}}.rsc"
     when: mikrotik_firewall.delete_configs_on_target_router

@@ -16,7 +16,7 @@
       commands:  "/import firewall-address_list-{{inventory_hostname}}.rsc"
     tags: mikrotik_firewall_services
     register: firewall_address_list_out
-    failed_when: firewall_address_list_out['stdout_lines'][0][-1] is search('error') or firewall_address_list_out['stdout_lines'][0][-1] is search('failure')
+    failed_when: firewall_interface_list_out['stdout_lines'][0][-1] is not search('Script file loaded and executed successfully')
 
   - name: Remove firewall-address_list-{{inventory_hostname}}.rsc from router
     routeros_command:
