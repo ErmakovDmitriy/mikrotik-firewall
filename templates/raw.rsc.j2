@@ -2,7 +2,9 @@
 /ip firewall raw remove [/ip firewall raw find where dynamic=no]
 {% endif %}
 
+{% if mikrotik_firewall.raw_rules[0] is defined %}
 
+# Remove old rules
 /ip firewall raw remove [/ip firewall raw find where !(\
 {% for raw in mikrotik_firewall.raw_rules %}
 {% if iter is defined %} or {% endif %}(chain="{{raw.chain}}" \
@@ -163,3 +165,5 @@
 {% if raw.protocol is defined %}protocol={{raw.protocol}} {%endif%}
 }
 {%endfor%}
+
+{% endif %}

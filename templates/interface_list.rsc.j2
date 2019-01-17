@@ -1,0 +1,31 @@
+{% if  mikrotik_firewall.remove_old_interface_list == true %}
+/interface list remove [/interface list find where dynamic=no]
+{% endif %}
+
+
+{% if mikrotik_firewall.interface_list[0] is defined %}
+
+# Remove lists not defined
+/interface list remove [/interface list find where !(\
+{% for list in mikrotik_firewall.interface_list %}
+{% if iter is defined %} or {% endif %}(name={{list.list}} and comment="Ansible managed: [{{list.comment}}]" and include="{{list.include}}" and exclude="{{list.exclude}}") \
+{% set iter = true %}
+{% endfor %}
+) and dynamic=no]
+
+
+#Write here
+# List creating if does not exist, list populating
+
+# Add interfaces
+{% for list in mikrotik_firewall.interface_list %}
+:if ([/interface list find name={{list.list}} and comment="Ansible managed: [{{list.comment}}]" and include="{{list.include}}" and exclude="{{list.exclude}}" ] = "") do={
+:log info "Add interface: {{list.address}} to address-list: {{list.list}}..."
+/ip firewall address-list add list={{list.list}} {% if list.disabled is defined %}disabled={{list.disabled}} {%endif%}address={{list.address}}\
+{% if list.comment is defined %}
+ comment="Ansible managed: [{{list.comment}}]"
+{% endif %}
+}
+{% endfor %}
+
+{% endif %}

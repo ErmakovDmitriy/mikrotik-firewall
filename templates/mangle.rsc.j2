@@ -1,6 +1,9 @@
 {% if  mikrotik_firewall.remove_old_mangle_rules == true %}
 /ip firewall mangle remove [/ip firewall mangle find where dynamic=no]
 {% endif %}
+
+{% if mikrotik_firewall.mangle_rules[0] is defined %}
+
 # Remove not defined
 /ip firewall mangle remove [/ip firewall mangle find where !(\
 {% for mangle in mikrotik_firewall.mangle_rules %}
@@ -81,6 +84,7 @@
 {% set iter = true %}) \
 {%endfor%}
 ) and dynamic=no]
+
 # Add
 {% for mangle in mikrotik_firewall.mangle_rules %}
 :if ([/ip firewall mangle find chain={{mangle.chain}} \
@@ -233,3 +237,5 @@
 {% if mangle.psd is defined %}psd={{mangle.psd}} {%endif%}
 }
 {%endfor%}
+
+{% endif %}

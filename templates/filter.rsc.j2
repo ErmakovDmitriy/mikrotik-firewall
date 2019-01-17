@@ -1,6 +1,9 @@
 {% if  mikrotik_firewall.remove_old_filter_rules == true %}
 /ip firewall filter remove [/ip firewall filter find where dynamic=no]
 {% endif %}
+
+{% if mikrotik_firewall.filter_rules[0] is defined %}
+
 # Remove not defined
 /ip firewall filter remove [/ip firewall filter find where !(\
 {% for filter in mikrotik_firewall.filter_rules %}
@@ -200,3 +203,5 @@
 {% if filter.reject_with is defined %}reject-with={{filter.reject_with}} {%endif%}
 }
 {%endfor%}
+
+{% endif %}
