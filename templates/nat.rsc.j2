@@ -6,7 +6,7 @@
 
 # Remove not defined
 /ip firewall nat remove [/ip firewall nat find where !(\
-{% for nat in mikrotik_firewall.nat_rules %}{% if iter is defined %} or {% endif %}(chain="{{nat.chain}}" \
+{% for nat in mikrotik_firewall.nat_rules %}{% if not loop.first %} or {% endif %}(chain="{{nat.chain}}" \
 {% if nat.action is defined %}and action="{{nat.action}}" {%endif%}
 {% if nat.hotspot is defined %}and hotspot="{{nat.hotspot}}" {%endif%}
 {% if nat.out_bridge_port is defined %}and out-bridge-port="{{nat.out_bridge_port}}" {%endif%}
@@ -67,7 +67,6 @@
 {% if nat.fragment is defined %}and fragment="{{nat.fragment}}" {%endif%}
 {% if nat.nth is defined %}and nth="{{nat.nth}}" {%endif%}
 {% if nat.routing_table is defined %}and routing-table="{{nat.routing_table}}" {%endif%}) \
-{% set iter = true %}
 {%endfor%}
 ) and dynamic=no]
 

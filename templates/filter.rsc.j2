@@ -7,7 +7,7 @@
 # Remove not defined
 /ip firewall filter remove [/ip firewall filter find where !(\
 {% for filter in mikrotik_firewall.filter_rules %}
-{% if iter is defined %} or {% endif %}(chain="{{filter.chain}}" \
+{% if not loop.first %} or {% endif %}(chain="{{filter.chain}}" \
 {% if filter.action is defined %}and action="{{filter.action}}" {%endif%}
 {% if filter.hotspot is defined %}and hotspot="{{filter.hotspot}}" {%endif%}
 {% if filter.out_bridge_port is defined %}and out-bridge-port="{{filter.out_bridge_port}}" {%endif%}
@@ -70,7 +70,6 @@
 {% if filter.fragment is defined %}and fragment="{{filter.fragment}}" {%endif%}
 {% if filter.nth is defined %}and nth="{{filter.nth}}" {%endif%}
 {% if filter.reject_with is defined %}and reject-with="{{filter.reject_with}}" {%endif%}) \
-{% set iter = true %}
 {%endfor%}
 ) and dynamic=no]
 

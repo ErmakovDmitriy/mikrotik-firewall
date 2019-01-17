@@ -7,7 +7,7 @@
 # Remove not defined
 /ip firewall mangle remove [/ip firewall mangle find where !(\
 {% for mangle in mikrotik_firewall.mangle_rules %}
-{% if iter is defined %} or {% endif %}(chain={{mangle.chain}} \
+{% if not loop.first %} or {% endif %}(chain={{mangle.chain}} \
 {% if mangle.action is defined %}and action={{mangle.action}} {%endif%}
 {% if mangle.in_bridge_port is defined %}and in-bridge-port={{mangle.in_bridge_port}} {%endif%}
 {% if mangle.new_routing_mark is defined %}and new-routing-mark={{mangle.new_routing_mark}} {%endif%}
@@ -80,8 +80,7 @@
 {% if mangle.ttl is defined %}and ttl={{mangle.ttl}} {%endif%}
 {% if mangle.icmp_options is defined %}and icmp-options={{mangle.icmp_options}} {%endif%}
 {% if mangle.new_priority is defined %}and new-priority={{mangle.new_priority}} {%endif%}
-{% if mangle.psd is defined %}and psd={{mangle.psd}} {%endif%}
-{% set iter = true %}) \
+{% if mangle.psd is defined %}and psd={{mangle.psd}} {%endif%} \
 {%endfor%}
 ) and dynamic=no]
 
