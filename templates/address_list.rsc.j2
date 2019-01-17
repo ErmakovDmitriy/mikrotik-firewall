@@ -8,8 +8,7 @@
 # Remove not defined
 /ip firewall address-list remove [/ip firewall address-list find where !(\
 {% for list in mikrotik_firewall.address_list %}
-{% if iter is defined %} or {% endif %}(list={{list.list}} and disabled={{list.disabled | bool | ternary('yes', 'no') }} and address={{list.address}} and comment="Ansible managed: [{{list.comment}}]") \
-{% set iter = true %}
+{% if not loop.first %} or {% endif %}(list={{list.list}} and disabled={{list.disabled | bool | ternary('yes', 'no') }} and address={{list.address}} and comment="Ansible managed: [{{list.comment}}]") \
 {% endfor %}
 ) and dynamic=no]
 

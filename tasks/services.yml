@@ -12,7 +12,10 @@
     delegate_to: localhost
 
   - name: Run firewall-services-{{inventory_hostname}}.rsc on router
-    raw:  "/import firewall-services-{{inventory_hostname}}.rsc"
+    routeros_command:
+      commands: "/import firewall-services-{{inventory_hostname}}.rsc"
 
   - name: Remove firewall-services-{{inventory_hostname}}.rsc from router
-    raw:  "/file remove firewall-services-{{inventory_hostname}}.rsc"
+    routeros_command:
+      commands: "/file remove firewall-services-{{inventory_hostname}}.rsc"
+    when: mikrotik_firewall.delete_configs_on_target_router

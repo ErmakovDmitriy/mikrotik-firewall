@@ -1,4 +1,5 @@
 mikrotik_firewall:
+  delete_configs_on_target_router: true
   connection_tracking:
     # or no
     enabled: "yes"
@@ -52,3 +53,5 @@ mikrotik_firewall:
   address_list: []
   remove_old_layers7_protocols: false
   layers7_protocols: []
+  interface_list: []
+  remove_old_interface_list: False

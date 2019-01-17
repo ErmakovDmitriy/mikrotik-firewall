@@ -17,3 +17,4 @@
 
   - name: Remove firewall-filter-{{inventory_hostname}}.rsc from router
     raw: "/file remove firewall-filter-{{inventory_hostname}}.rsc"
+    when: mikrotik_firewall.delete_configs_on_target_router

@@ -12,8 +12,15 @@
     delegate_to: localhost
 
   - name: Run firewall-address_list-{{inventory_hostname}}.rsc on router
-    raw:  "/import firewall-address_list-{{inventory_hostname}}.rsc"
+    routeros_command:
+      commands:  "/import firewall-address_list-{{inventory_hostname}}.rsc"
     tags: mikrotik_firewall_services
+    register: firewall_address_list_out
+    failed_when: firewall_address_list_out['stdout_lines'][0][-1] is search('error') or firewall_address_list_out['stdout_lines'][0][-1] is search('failure')
 
   - name: Remove firewall-address_list-{{inventory_hostname}}.rsc from router
-    raw:  "/file remove firewall-address_list-{{inventory_hostname}}.rsc"
+    routeros_command:
+      commands:  "/file remove firewall-address_list-{{inventory_hostname}}.rsc"
+    register: firewall_file_address_list_delete_out
+    failed_when: firewall_file_address_list_delete_out['stdout_lines'][0][-1] is search('no such item')
+    when: mikrotik_firewall.delete_configs_on_target_router

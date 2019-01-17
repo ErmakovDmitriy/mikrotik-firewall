@@ -5,6 +5,9 @@
 - include: services.yml
   tags: [ 'role::mikrotik_firewall:services' ]
 
+- include: interface_list.yml
+  tags: [ 'role::mikrotik_firewall::interface_list' ]
+
 - include: address_list.yml
   tags: [ 'role::mikrotik_firewall:address_list' ]
 
